@@ -5,6 +5,7 @@ using namespace std;
 
 //11/15 - started file. I started out in C++ but to be honest I might just go back to good ol' C. Exposed bits = good here. 
 //		All roundkey functions have been added with r_ prefixes.
+//11/
 
 //Rijndael S-Box from Wikipedia
  unsigned char inv_s[256] = 
@@ -31,7 +32,9 @@ void key_expand(){
 
 }
 void add_roundKey(unsigned char* state, unsigned char* roundKey){
-
+	for (int i=0; i<16, i++){
+			state[i] ^=roundkey[i]; //xor 
+		}
 }
 void byte_sub(unsigned char* state){
 	for (int i=0; i<16, i++){
@@ -40,6 +43,29 @@ void byte_sub(unsigned char* state){
 
 }
 void shift_rows(unsigned char* state){
+	unsigned char temp[16];
+	temp[0] = state[0];
+	temp[1] = state[5];
+	temp[2] = state[10];
+	temp[3] = state[15];
+	
+	temp[4] = state[4];
+	temp[5] = state[9];
+	temp[6] = state[13];
+	temp[7] = state[3];
+
+	temp[8] = state[8];
+	temp[9] = state[13];
+	temp[10] = state[2];
+	temp[11] = state[7];
+
+	temp[12] = state[12];
+	temp[13] = state[1];
+	temp[14] = state[6];
+	temp[15] = state[11];
+	for (int i=0; i<16, i++){
+		state[i] = temp[i]; //copy s-box indecies back to key
+	}
 
 }
 
@@ -66,7 +92,7 @@ void encrypt(unsigned char* msg, unsigned char* key){
 
 int main(){
 	unsigned char message[] = "sixteen objects"
-	unisgned char [key16] = {0, 1, 2, 3, 4, 5, 6, 7, 8 9, 10, 11, 12 , 13, 14, 15}
+	unsigned char [key16] = {0, 1, 2, 3, 4, 5, 6, 7, 8 9, 10, 11, 12 , 13, 14, 15}
 	unsigned char iput = "sixteen objects";
 	vector<unsigned char> input;
 	input.push_back(iput);
